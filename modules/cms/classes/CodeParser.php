@@ -150,9 +150,13 @@ class CodeParser
 
         $this->validate($fileContents);
 
-        $this->makeDirectorySafe(dirname($path));
+        $this->makeDirectoryForPath($path);
 
-        $this->writeContentSafe($path, $fileContents);
+        if (!@file_put_contents($path, $fileContents, LOCK_EX)) {
+            throw new SystemException(Lang::get('system::lang.file.create_fail', ['name'=>$path]));
+        }
+
+        File::chmod($path);
 
         return $className;
     }
@@ -309,45 +313,12 @@ class CodeParser
     }
 
     /**
-     * Writes content with concurrency support and cache busting
-     * This work is based on the Twig_Cache_Filesystem class
-     */
-    protected function writeContentSafe($path, $content)
-    {
-        $count = 0;
-        $tmpFile = tempnam(dirname($path), basename($path));
-
-        if (@file_put_contents($tmpFile, $content) === false) {
-            throw new SystemException(Lang::get('system::lang.file.create_fail', ['name'=>$tmpFile]));
-        }
-
-        while (!@rename($tmpFile, $path)) {
-            usleep(rand(50000, 200000));
-
-            if ($count++ > 10) {
-                throw new SystemException(Lang::get('system::lang.file.create_fail', ['name'=>$path]));
-            }
-        }
-
-        File::chmod($path);
-
-        /*
-         * Compile cached file into bytecode cache
-         */
-        if (function_exists('opcache_invalidate')) {
-            opcache_invalidate($path, true);
-        }
-        elseif (function_exists('apc_compile_file')) {
-            apc_compile_file($path);
-        }
-    }
-
-    /**
      * Make directory with concurrency support
      */
-    protected function makeDirectorySafe($dir)
+    protected function makeDirectoryForPath($path)
     {
         $count = 0;
+        $dir = dirname($path);
 
         if (is_dir($dir)) {
             if (!is_writable($dir)) {
@@ -365,6 +336,7 @@ class CodeParser
             }
         }
 
-        File::chmodRecursive($dir);
+        File::chmodRecursive($path);
     }
+
 }

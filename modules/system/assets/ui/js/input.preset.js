@@ -247,14 +247,14 @@
         if ($el.val().length && $el.val() != prefix)
             return
 
-        $el.val(prefix).trigger('oc.inputPreset.afterUpdate')
+        $el.val(prefix)
 
         this.$src = $(options.inputPreset, parent),
         this.$src.on('keyup', function() {
             if (self.cancelled)
                 return
 
-            $el.val(prefix + self.formatValue()).trigger('oc.inputPreset.afterUpdate')
+            $el.val(prefix + self.formatValue())
         })
 
         this.$el.on('change', function() {

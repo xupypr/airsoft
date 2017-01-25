@@ -17,8 +17,6 @@ use Backend\Classes\WidgetBase;
  */
 class TemplateList extends WidgetBase
 {
-    const SORTING_FILENAME = 'fileName';
-
     use \Backend\Traits\SelectableWidget;
 
     protected $searchTerm = false;
@@ -70,12 +68,6 @@ class TemplateList extends WidgetBase
      * @var string A list of file name patterns to suppress / hide.
      */
     public $ignoreDirectories = [];
-
-    /**
-     * @var boolean Defines sorting properties. 
-     * The sorting feature is disabled if there are no sorting properties defined.
-     */
-    public $sortingProperties = [];
 
     /*
      * Public methods
@@ -145,16 +137,6 @@ class TemplateList extends WidgetBase
         return $this->updateList();
     }
 
-    public function onApplySorting()
-    {
-        $this->setSortingProperty(Input::get('sortProperty'));
-
-        $result = $this->updateList();
-        $result['#'.$this->getId('sorting-options')] = $this->makePartial('sorting-options');
-
-        return $result;
-    }
-
     //
     // Methods for the internal use
     //
@@ -174,7 +156,9 @@ class TemplateList extends WidgetBase
 
         $items = array_map([$this, 'normalizeItem'], $items);
 
-        $this->sortItems($items);
+        usort($items, function ($a, $b) {
+            return strcmp($a->fileName, $b->fileName);
+        });
 
         /*
          * Apply the search
@@ -233,24 +217,11 @@ class TemplateList extends WidgetBase
             }
         }
 
-        // Sort folders by name regardless of the 
-        // selected sorting options.
-        ksort($foundGroups);
-
         foreach ($foundGroups as $group) {
             $result[] = $group;
         }
 
         return $result;
-    }
-
-    protected function sortItems(&$items)
-    {
-        $sortingProperty = $this->getSortingProperty();
-
-        usort($items, function ($a, $b) use ($sortingProperty) {
-            return strcmp($a->$sortingProperty, $b->$sortingProperty);
-        });
     }
 
     protected function removeIgnoredDirectories($items)
@@ -302,10 +273,6 @@ class TemplateList extends WidgetBase
             'description'  => $description,
             'descriptions' => $descriptions
         ];
-
-        foreach ($this->sortingProperties as $property=>$name) {
-            $result[$property] = $item->$property;
-        }
 
         return (object) $result;
     }
@@ -417,21 +384,5 @@ class TemplateList extends WidgetBase
         $statuses[$group] = $status;
         $this->groupStatusCache = $statuses;
         $this->putSession($this->getThemeSessionKey('groups'), $statuses);
-    }
-
-    protected function getSortingProperty()
-    {
-        $property = $this->getSession($this->getThemeSessionKey('sorting_property'), self::SORTING_FILENAME);
-
-        if (!array_key_exists($property, $this->sortingProperties)) {
-            return self::SORTING_FILENAME;
-        }
-
-        return $property;
-    }
-
-    protected function setSortingProperty($property)
-    {
-        $this->putSession($this->getThemeSessionKey('sorting_property'), $property);
     }
 }

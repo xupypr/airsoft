@@ -1,7 +1,6 @@
 @import "../../../../assets/less/core/boot.less";
 
 .report-container {
-    margin-bottom: 15px;
     > ul {
         list-style: none;
         padding: 0;
@@ -107,8 +106,12 @@
             &.width-10 {width: 100%;}
 
             &.dragged {
-                .transition-duration(0s) !important;
-                .translate3d(0, 0, 0) !important;
+                -webkit-transition-duration: 0!important;
+                -moz-transition-duration: 0!important;
+                transition-duration: 0!important;
+
+                .translate3d(0, 0, 0)!important;
+
                 position: absolute;
                 opacity: 0.5;
                 z-index: 2000;
@@ -143,6 +146,7 @@
         border: 1px dashed #bcc3c7;
         .border-radius(@border-radius-base);
         margin-left: 5px;
+        margin-bottom: 15px;
 
         i {
             margin-right: 5px;
@@ -169,11 +173,16 @@
 
     &.isotope,
     &.isotope .isotope-item {
-      .transition-duration(0.8s);
+      -webkit-transition-duration: 0.8s;
+         -moz-transition-duration: 0.8s;
+              transition-duration: 0.8s;
+
     }
 
     &.isotope {
-      .transition-property(height, width);
+      -webkit-transition-property: height, width;
+         -moz-transition-property: height, width;
+              transition-property: height, width;
     }
 
     &.isotope .isotope-item {
@@ -189,7 +198,7 @@
             // The breakpoint should be defined in the CSS and JS,
             // otherwise some widgets can't calculate the width properly, 
             // as the JS is applied too late.
-            width: 100% !important;
+            width: 100%!important;
         }
     }
 }

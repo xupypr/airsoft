@@ -326,14 +326,14 @@ class RelationController extends ControllerBehavior
         $this->relationObject = $this->model->{$field}();
         $this->relationModel = $this->relationObject->getRelated();
 
-        $this->manageId = post('manage_id');
-        $this->foreignId = post('foreign_id');
         $this->readOnly = $this->getConfig('readOnly');
         $this->deferredBinding = $this->getConfig('deferredBinding') || !$this->model->exists;
         $this->toolbarButtons = $this->evalToolbarButtons();
         $this->viewMode = $this->evalViewMode();
         $this->manageMode = $this->evalManageMode();
         $this->manageTitle = $this->evalManageTitle();
+        $this->manageId = post('manage_id');
+        $this->foreignId = post('foreign_id');
 
         /*
          * Toolbar widget
@@ -645,7 +645,7 @@ class RelationController extends ControllerBehavior
             }
             elseif ($scopeMethod = $this->getConfig('view[scope]')) {
                 $widget->bindEvent('list.extendQueryBefore', function($query) use ($scopeMethod) {
-                    $query->$scopeMethod($this->model);
+                    $query->$scopeMethod();
                 });
             }
             else {
@@ -775,7 +775,7 @@ class RelationController extends ControllerBehavior
             }
             elseif ($scopeMethod = $this->getConfig('manage[scope]')) {
                 $widget->bindEvent('list.extendQueryBefore', function($query) use ($scopeMethod) {
-                    $query->$scopeMethod($this->model);
+                    $query->$scopeMethod();
                 });
             }
             else {
@@ -1435,11 +1435,8 @@ class RelationController extends ControllerBehavior
                 if ($this->readOnly) {
                     return 'backend::lang.relation.preview_name';
                 }
-                elseif ($this->manageId) {
-                    return 'backend::lang.relation.update_name';
-                }
                 else {
-                    return 'backend::lang.relation.create_name';
+                    return 'backend::lang.relation.update_name';
                 }
                 break;
         }

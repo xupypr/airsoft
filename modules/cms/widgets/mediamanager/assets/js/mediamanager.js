@@ -140,8 +140,10 @@
         // Touch devices use double-tap for the navigation and single tap for selecting.
         // Another option is checkboxes visible only on touch devices, but this approach
         // will require more significant changes in the code for the touch device support.
-        this.$el.on('click.item', '[data-type="media-item"]', this.proxy(this.onItemClick))
-        this.$el.on('touchend', '[data-type="media-item"]', this.proxy(this.onItemTouch))
+        if (!Modernizr.touch)
+            this.$el.on('click.item', '[data-type="media-item"]', this.proxy(this.onItemClick))
+        else 
+            this.$el.on('touchend', '[data-type="media-item"]', this.proxy(this.onItemTouch))
 
         this.$el.on('change', '[data-control="sorting"]', this.proxy(this.onSortingChanged))
         this.$el.on('keyup', '[data-control="search"]', this.proxy(this.onSearchChanged))
@@ -161,8 +163,10 @@
         this.$el.off('click.tree-path', this.proxy(this.onNavigate))
         this.$el.off('click.command', this.proxy(this.onCommandClick))
 
-        this.$el.off('click.item', this.proxy(this.onItemClick))
-        this.$el.off('touchend', '[data-type="media-item"]', this.proxy(this.onItemTouch))
+        if (!Modernizr.touch)
+            this.$el.off('click.item', this.proxy(this.onItemClick))
+        else
+            this.$el.off('touchend', '[data-type="media-item"]', this.proxy(this.onItemTouch))
 
         this.$el.off('change', '[data-control="sorting"]', this.proxy(this.onSortingChanged))
         this.$el.off('keyup', '[data-control="search"]', this.proxy(this.onSearchChanged))
@@ -1108,19 +1112,14 @@
     }
 
     MediaManager.prototype.onItemTouch = function(ev) {
-        // The 'click' event is triggered after 'touchend', 
-        // so we can prevent handling it.
-        ev.preventDefault() 
-        ev.stopPropagation()
+        this.onItemClick(ev)
 
         if (this.dblTouchFlag) {
             this.onNavigate(ev)
             this.dblTouchFlag = null
         }
-        else {
-            this.onItemClick(ev)
+        else
             this.dblTouchFlag = true
-        }
 
         this.clearDblTouchTimer()
 

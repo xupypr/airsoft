@@ -115,10 +115,7 @@ return [
         'delete_confirm_multiple' => 'Delete selected pages?',
         'delete_confirm_single' => 'Delete this page?',
         'no_layout' => '-- no layout --',
-        'cms_page' => 'CMS page',
-        'title' => 'Page title',
-        'url' => 'Page URL',
-        'file_name' => 'Page file name'
+        'cms_page' => 'CMS page'
     ],
     'layout' => [
         'not_found_name' => "The layout ':name' is not found",
@@ -244,8 +241,7 @@ return [
         'not_found' => 'Template not found.',
         'saved' => 'Template saved.',
         'no_list_records' => 'No records found',
-        'delete_confirm' => 'Delete selected templates?',
-        'order_by' =>'Order by'
+        'delete_confirm' => 'Delete selected templates?'
     ],
     'permissions' => [
         'name' => 'CMS',

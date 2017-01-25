@@ -10,11 +10,24 @@ use October\Rain\Database\Updates\Migration;
  */
 class DbSystemTimestampFix extends Migration
 {
+    protected $coreTables = [
+        'deferred_bindings',
+        'failed_jobs' => 'failed_at',
+        'system_files',
+        'system_event_logs',
+        'system_mail_layouts',
+        'system_mail_templates',
+        'system_plugin_history' => 'created_at',
+        'system_plugin_versions' => 'created_at',
+        'system_request_logs',
+        'system_revisions',
+    ];
+
     public function up()
     {
         DbDongle::disableStrictMode();
 
-        foreach ($this->getCoreTables() as $table => $columns) {
+        foreach ($this->coreTables as $table => $columns) {
             if (is_int($table)) {
                 $table = $columns;
                 $columns = ['created_at', 'updated_at'];
@@ -27,23 +40,5 @@ class DbSystemTimestampFix extends Migration
     public function down()
     {
         // ...
-    }
-
-    protected function getCoreTables()
-    {
-        $failedJobsTable = Config::get('queue.failed.table', 'failed_jobs');
-
-        return [
-            'deferred_bindings',
-            $failedJobsTable => 'failed_at',
-            'system_files',
-            'system_event_logs',
-            'system_mail_layouts',
-            'system_mail_templates',
-            'system_plugin_history' => 'created_at',
-            'system_plugin_versions' => 'created_at',
-            'system_request_logs',
-            'system_revisions',
-        ];
     }
 }
