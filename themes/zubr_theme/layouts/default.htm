@@ -2,8 +2,10 @@ description = "Default layout"
 
 [session]
 security = "all"
+
+[account]
+paramCode = "code"
 ==
-{% component 'session' %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -69,3 +71,5 @@ security = "all"
     {% scripts %}
   </body>
 </html>
+
+{% component 'session' %}

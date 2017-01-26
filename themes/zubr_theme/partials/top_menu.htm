@@ -42,7 +42,7 @@
               </ul>
               <ul class="nav navbar-nav pull-right">
                 {% if user %}
-                <li><a href="#" data-request="onLogout">Выход</a></li>
+                <li><a href="#" data-request="onLogout">{{ user.name }}</a></li>
                 {% else %}
                 <li><a href="#" data-toggle="modal" data-target="#loginModal">Вход</a></li>
                 {% endif %}
