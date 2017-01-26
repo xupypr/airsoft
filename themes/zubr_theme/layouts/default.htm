@@ -1,0 +1,71 @@
+description = "Default layout"
+
+[session]
+security = "all"
+==
+{% component 'session' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>Страйкбольный спортивный клуб "Зубр"</title>
+
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ 'assets/css/ie10-viewport-bug-workaround.css'|theme }}" rel="stylesheet">
+        <link href="{{ 'assets/css/carousel.css'|theme }}" rel="stylesheet">
+        <link href="{{ 'assets/css/main.css'|theme }}" rel="stylesheet">
+        
+        {% styles %}
+
+  </head>
+    <body>
+    {% partial 'top_menu' %}
+
+    <!-- Carousel-->
+    {% partial 'carousel' %}
+<!-- /.carousel -->
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+    
+    <div class="row">
+      <div class="col-md-9">
+      {% page %}
+      </div>
+      <div class="col-md-3">
+      {% partial 'right_menu' %}
+      </div>
+    </div>
+
+    {% partial 'login_modal' %}
+      <!-- FOOTER -->
+    {% partial 'footer' %}
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="http://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    {% framework %}
+    {% scripts %}
+  </body>
+</html>

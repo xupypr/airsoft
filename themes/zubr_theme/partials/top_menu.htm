@@ -1,0 +1,57 @@
+==
+<div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">ССК "Зубр"</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="{% if this.page.id == 'home-page' %}active{% endif %}"><a href="/">Главная</a></li>
+                <li class="{% if this.page.id == 'news' %}active{% endif %}"><a href="news">Новости</a></li>
+                
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Статьи<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Все статьи</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Правила ССК "Зубр"</a></li>
+                    <li><a href="#">Как начать играть</a></li>
+                    
+                  </ul>
+                </li>
+                
+               
+                <li class="{% if this.page.id == 'forum' %}active{% endif %}"><a href="forum">Форум</a></li>
+                
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Контакты <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li class="{% if this.page.id == 'About' %}active{% endif %}"><a href="about">О нас</a></li>
+                    <li class="{% if this.page.id == 'Contacts' %}active{% endif %}"><a href="contacts">Как связаться</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav pull-right">
+                {% if user %}
+                <li><a href="#" data-request="onLogout">Выход</a></li>
+                {% else %}
+                <li><a href="#" data-toggle="modal" data-target="#loginModal">Вход</a></li>
+                {% endif %}
+                
+                
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>
