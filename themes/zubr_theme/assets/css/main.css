@@ -1,7 +1,13 @@
 .top_menu_opacity {
-opacity: 0.6;
+opacity: 0.8;
 }
 
 .logo_zubr {
 margin-top: 10px;
+}
+
+.colorizer .row:nth-child(2n){
+    background-color: #eee;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
 }
